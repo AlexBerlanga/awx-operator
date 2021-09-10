@@ -27,6 +27,7 @@ spec:
         app.kubernetes.io/part-of: '{{ meta.name }}'
         app.kubernetes.io/managed-by: '{{ deployment_type }}-operator'
         app.kubernetes.io/component: '{{ deployment_type }}'
+        prometheus.io/scrape-awx: "true"
     spec:
       serviceAccountName: '{{ meta.name }}'
 {% if image_pull_secret %}
@@ -95,6 +96,7 @@ spec:
           imagePullPolicy: '{{ image_pull_policy }}'
           ports:
             - containerPort: 8052
+            - name: prometheus
 {% if ingress_type | lower == 'route' and route_tls_termination_mechanism | lower == 'passthrough' %}
             - containerPort: 8053
 {% endif %}
